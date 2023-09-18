@@ -1,7 +1,7 @@
 let pos;
 let vel;
 // let acc;
-let radius = 60;
+let radius = 80;
 
 function setup() {
   setCanvasContainer('mySketchGoesHere', 3, 2, true);
@@ -11,6 +11,7 @@ function setup() {
   // vel = createVector(0, 0);
   console.log(pos);
   console.log(vel);
+  fill('pink');
   ellipse(pos.x, pos.y, 50);
 }
 
