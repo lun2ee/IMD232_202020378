@@ -11,6 +11,9 @@ let cvToMv;
 let cvToPo;
 let cvToAc;
 
+let mouse;
+let toMouse;
+
 function setup() {
   setCanvasContainer('mySketchGoesHere', 3, 2, true);
   background('white');
@@ -20,16 +23,15 @@ function setup() {
 function draw() {
   background('white');
   update();
-  infiniteEdge();
   display();
 }
 
 function display() {
   fill('black');
-  stroke(1);
+  stroke(0);
   ellipse(pos.x, pos.y, rad * 2);
 
-  strokeWeight(2);
+  strokeWeight(3);
   stroke('black');
   cv.set(pos.x, pos.y);
   mv.set(mouseX, mouseY);
@@ -38,15 +40,8 @@ function display() {
 
   line(0, 0, cvToMv.x, cvToMv.y);
 
-  strokeWeight(2);
+  strokeWeight(5);
   stroke('blue');
-  accPoint.set(acc.x + pos.x, acc.y + pos.y);
-  cvToAc = p5.Vector.sub(accPoint, cv);
-  line(0, 0, cvToAc.x * 100, cvToAc.y * 100);
-  console.log(mag(cvToAc.x, cvToAc.y));
-
-  strokeWeight(3);
-  stroke('purple');
   posPoint.set(pos.x + vel.x, pos.y + vel.y);
   cvToPo = p5.Vector.sub(posPoint, cv);
 
@@ -56,7 +51,10 @@ function display() {
 function reset() {
   pos = createVector(width / 2, height / 2);
   vel = createVector(0, 0);
-  acc = createVector();
+
+  toMouse = createVector();
+  mouse = createVector();
+
   cv = createVector();
   mv = createVector();
   accPoint = createVector();
@@ -65,22 +63,15 @@ function reset() {
 }
 
 function update() {
-  acc = p5.Vector.random2D();
-  acc.mult(2);
+  mouse.set(mouseX, mouseY);
+  toMouse = p5.Vector.sub(mouse, pos);
+  console.log(toMouse.x, toMouse.y);
+
+  acc = createVector(toMouse.x, toMouse.y);
+  acc.normalize();
+  acc.mult(0.1);
+
   vel.limit(5);
   vel.add(acc);
   pos.add(vel);
-}
-
-function infiniteEdge() {
-  if (pos.x < 0) {
-    pos.x += width;
-  } else if (pos.x > width) {
-    pos.x -= width;
-  }
-  if (pos.y < 0) {
-    pos.y += height;
-  } else if (pos.y > height) {
-    pos.y -= height;
-  }
 }
