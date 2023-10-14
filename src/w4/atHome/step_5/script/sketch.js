@@ -23,7 +23,7 @@ function draw() {
     //마우스를 눌렀을때, 바람이 불게끔 한다.
   }
   if (moverA.contactEdge()) {
-    let c = 0.9;
+    let c = 0.1;
     // let friction = createVector(moverA.vel.x, moverA.vel.y);
     let friction = moverA.vel.copy();
     //moverA 값의 velocity 와는 무관하게 하나의 카피를 떠서 friction에게 주게 되는 것.
