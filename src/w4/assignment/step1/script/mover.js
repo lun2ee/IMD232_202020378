@@ -14,7 +14,7 @@ class Body {
 
   attract(body) {
     let force = p5.Vector.sub(this.position, body.position);
-    let distance = constrain(force.mag(), 5, 25);
+    let distance = constrain(force.mag(), 20, 50);
     let strength = (G * (this.mass * body.mass)) / distance ** 2;
     force.setMag(strength);
     return force;
@@ -30,10 +30,10 @@ class Body {
     this.position.add(this.velocity);
 
     this.velocityVisualization.set(this.velocity);
-    this.velocityVisualization.mult(10);
+    this.velocityVisualization.mult(0);
 
     this.accelerationVisualization.set(this.acceleration);
-    this.accelerationVisualization.mult(100);
+    this.accelerationVisualization.mult(10);
 
     this.acceleration.set(0, 0);
   }
