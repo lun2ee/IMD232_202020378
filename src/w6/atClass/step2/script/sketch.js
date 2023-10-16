@@ -25,6 +25,6 @@ function draw() {
   emitter.applyGravity(g);
   emitter.update();
   emitter.display();
-  console.log(emitter.balls.lenght);
+  console.log(emitter.balls.length);
   //한없이 뜨는거 해결?
 }
