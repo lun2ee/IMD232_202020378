@@ -1,6 +1,6 @@
 let bodies = [];
 
-let G = 0.1;
+let G = 0.05;
 
 let showVector = false;
 
