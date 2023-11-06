@@ -14,13 +14,84 @@ class Vehicle {
     // 최대 속력에 대한 변수 = 값을 받아올것
     this.forceMx = forceMx;
     // 최대힘에 대한 변수 = 값을 받아올것
+    this.neighborhooodRad = 50;
     this.color = color;
     // 칼라에대한 변수 = 값을 받아올것
   }
+  cohesion(others) {
+    let cnt = 0;
+    const steer = createVector(0, 0);
+    others.forEach((each) => {
+      if (each !== this) {
+        const distSq =
+          (this.pos.x - each.pos.x) ** 2 + (this.pos.y - each.pos.y) ** 2;
+        if (distSq < this.neighborhooodRad ** 2) {
+          steer.add(each.pos);
+          cnt++;
+        }
+      }
+    });
+    if (cnt > 0) {
+      steer.div(cnt);
+      steer.sub(this.pos);
+      steer.setMag(this.speedMx);
+      steer.sub(this.vel);
+      steer.limit(this.forceMx);
+    }
+    return steer;
+  }
+
+  align(others) {
+    let cnt = 0;
+    const steer = createVector(0, 0);
+    others.forEach((each) => {
+      if (each !== this) {
+        const distSq =
+          (this.pos.x - each.pos.x) ** 2 + (this.pos.y - each.pos.y) ** 2;
+        if (distSq < this.neighborhooodRad ** 2) {
+          steer.add(each.vel);
+          //   steer.add(p5.Vector.normalize(each.vel));
+          cnt++;
+        }
+      }
+    });
+    if (cnt > 0) {
+      steer.div(cnt);
+      steer.setMag(this.speedMx);
+      steer.sub(this.vel);
+      steer.limit(this.forceMx);
+    }
+    return steer;
+  }
+
+  separate(others) {
+    let cnt = 0;
+    const steer = createVector(0, 0);
+    others.forEach((each) => {
+      if (each !== this) {
+        const dist = this.pos.dist(each.pos);
+        if (dist > 0 && this.rad + each.rad > dist) {
+          const distNormal = dist / (this.rad + each.rad);
+          const towardMeVec = p5.Vector.sub(this.pos, each.pos);
+          towardMeVec.setMag(1 / distNormal);
+          steer.add(towardMeVec);
+          cnt++;
+        }
+      }
+    });
+    if (cnt > 0) {
+      steer.div(cnt);
+      steer.setMag(this.speedMx);
+      steer.sub(this.vel);
+      steer.limit(this.forceMx);
+    }
+    return steer;
+  }
+
   applyForce(force) {
-    const forcedivedByMass = p5.Vector.div(force, this.mass);
+    const forcDivedByMass = p5.Vector.div(force, this.mass);
     // 외부에서 힘을 받아오는데,이 힘을 나눠줘야한다. =  (force를 mass로 나누도록 함.)
-    this.acc.add(forcedivedByMass);
+    this.acc.add(forceDivedByMass);
     // 최종적으로 acc에다가 적용
   }
   update() {

@@ -6,6 +6,17 @@ class Traffic {
 
   run() {
     this.vehicles.forEach((eachVehicle) => {
+      const separate = eachVehicle.separate(this.vehicles); // 다른 화살표와 부딪힘을 피하려는 힘 계산
+      separate.mult(1); // 부딪힘 힘에 가중치 적용
+      eachVehicle.applyForce(separate); // 부딪힘 힘을 화살표에 적용
+
+      const align = eachVehicle.align(this.vehicles); // 주위 화살표들과 방향 일치하려는 힘 계산
+      align.mult(0.5); // 방향 일치 힘에 가중치 적용
+      eachVehicle.applyForce(align); // 방향 일치 힘을 화살표에 적용
+
+      const cohesion = eachVehicle.cohesion(this.vehicles); // 주위 화살표들과 응집하려는 힘 계산
+      cohesion.mult(0.5); // 응집 힘에 가중치 적용
+      eachVehicle.applyForce(cohesion); // 응집 힘을 화살표에 적용
       eachVehicle.update();
       eachVehicle.borderInfinite();
       eachVehicle.display();

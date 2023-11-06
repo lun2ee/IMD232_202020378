@@ -8,6 +8,9 @@ function setup() {
   background('white');
   //   배경색은 ("흰색")
   traffic = new Traffic();
+  for (let n = 0; n < 10; n++) {
+    traffic.addVehicle(random(width), random(height));
+  }
 }
 
 function draw() {
