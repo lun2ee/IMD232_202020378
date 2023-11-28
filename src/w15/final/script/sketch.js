@@ -1,3 +1,4 @@
+// sketch.js
 'use strict';
 
 var sketch = function (p) {
@@ -15,24 +16,27 @@ var sketch = function (p) {
   };
 
   p.draw = function () {
-    p.fill(255, 20);
+    p.fill(0, 20);
     p.rect(0, 0, p.width, p.height);
 
-    p.fill(0);
+    p.fill(255);
     for (var i = 0; i < nodes.length; i++) {
       // Let all nodes repel each other
       nodes[i].attractNodes(nodes);
       // Apply velocity vector and update position
       nodes[i].update();
       // Draw node
-      p.ellipse(nodes[i].x, nodes[i].y, 10, 10);
+      p.fill(
+        nodes[i].charge > 0 ? p.color(255, 150, 150) : p.color(150, 150, 255)
+      );
+      p.ellipse(nodes[i].x, nodes[i].y, 20, 15);
     }
   };
 
   p.keyPressed = function () {
-    if (p.key == 's' || p.key == 'S') p.saveCanvas(gd.timestamp(), 'png');
+    if (p.key == 's' || p.key == 'S') p.saveCanvas(Date.now(), 'png');
     if (p.key == 'r' || p.key == 'R') {
-      p.background(255);
+      p.background(0);
       createNodes();
     }
   };
@@ -54,4 +58,4 @@ var sketch = function (p) {
   }
 };
 
-var myp5 = new p5(sketch);
+var p = new p5(sketch);

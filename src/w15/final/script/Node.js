@@ -1,16 +1,23 @@
+// Node.js
 var Node = function (x, y, minX, maxX, minY, maxY) {
   p5.Vector.call(this, x, y, 0);
   this.minX = Number.MIN_VALUE || minX;
   this.maxX = Number.MAX_VALUE || maxX;
   this.minY = Number.MIN_VALUE || minY;
   this.maxY = Number.MAX_VALUE || maxY;
-  this.radius = 200; // Radius of impact
-  this.ramp = 1; // Influences the shape of the function
-  this.strength = -1; // Strength: positive value attracts, negative value repels
+  this.radius = 100;
+  this.ramp = 1;
+  this.strength = -1;
   this.damping = 0.5;
-  this.velocity = myp5.createVector();
-  this.pVelocity = myp5.createVector();
+  this.velocity = p.createVector();
+  this.pVelocity = p.createVector();
   this.maxVelocity = 10;
+
+  // Add charge property to simulate attractive and repulsive forces
+  this.charge = p.random() > 0.5 ? 1 : -1; // Randomly assign charges
+  // Modify the radius and strength based on charge
+  this.radius = 100;
+  this.strength = this.charge * 0.2; // Adjust the strength based on charge
 };
 
 Node.prototype = Object.create(p5.Vector.prototype);
@@ -18,9 +25,7 @@ Node.prototype = Object.create(p5.Vector.prototype);
 Node.prototype.attractNodes = function (nodeArray) {
   for (var i = 0; i < nodeArray.length; i++) {
     var otherNode = nodeArray[i];
-    // Stop when empty
     if (otherNode === undefined) break;
-    // Continue from the top when node is itself
     if (otherNode === this) continue;
 
     this.attract(otherNode);
@@ -28,12 +33,12 @@ Node.prototype.attractNodes = function (nodeArray) {
 };
 
 Node.prototype.attract = function (otherNode) {
-  var thisNodeVector = myp5.createVector(this.x, this.y);
-  var otherNodeVector = myp5.createVector(otherNode.x, otherNode.y);
+  var thisNodeVector = p.createVector(this.x, this.y);
+  var otherNodeVector = p.createVector(otherNode.x, otherNode.y);
   var d = thisNodeVector.dist(otherNodeVector);
 
   if (d > 0 && d < this.radius) {
-    var s = myp5.pow(d / this.radius, 1 / this.ramp);
+    var s = p.pow(d / this.radius, 1 / this.ramp);
     var f = (s * 9 * this.strength * (1 / (s + 1) + (s - 3) / 4)) / d;
     var df = thisNodeVector.sub(otherNodeVector);
     df.mult(f);
