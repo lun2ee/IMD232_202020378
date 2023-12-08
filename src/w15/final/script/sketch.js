@@ -1,4 +1,3 @@
-// sketch.js
 'use strict';
 
 var sketch = function (p) {
@@ -13,6 +12,13 @@ var sketch = function (p) {
 
     // Create nodes
     createNodes();
+  };
+  p.windowResized = function () {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].x = p.constrain(nodes[i].x, 5, p.width - 5);
+      nodes[i].y = p.constrain(nodes[i].y, 5, p.height - 5);
+    }
   };
 
   p.draw = function () {

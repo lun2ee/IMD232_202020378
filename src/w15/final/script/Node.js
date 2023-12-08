@@ -1,4 +1,3 @@
-// Node.js
 var Node = function (x, y, minX, maxX, minY, maxY) {
   p5.Vector.call(this, x, y, 0);
   this.minX = Number.MIN_VALUE || minX;
