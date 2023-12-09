@@ -1,7 +1,7 @@
 let lineCount = 0;
 
 function setup() {
-  setCanvasContainer('mySketchGoesHere', 1, 1, true);
+  setCanvasContainer('canvas', 1, 1, true);
   background(0);
 }
 
