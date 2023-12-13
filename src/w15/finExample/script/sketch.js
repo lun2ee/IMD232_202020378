@@ -1,7 +1,7 @@
 const unis = [];
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas('mySketchGoesHere', 1, 1, true);
 
   for (let azimNum = 0; azimNum < 8; azimNum++) {
     for (let zeniNum = 0; zeniNum < 8; zeniNum++) {

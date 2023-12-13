@@ -1,11 +1,11 @@
 class Uni {
   constructor(azimuth, zenith, rad, beginRad) {
-    //고개를 좌우로 하는 각
+    //고개를 좌우로 하는 각 (방위각)
     this.azimuth = azimuth;
     this.azimVel = 0;
     this.azimAcc;
 
-    //고개를 위아래로 하는 각
+    //고개를 위아래로 하는 각 (경사각)
     this.zenith = zenith;
     this.zeniVel = 0;
     this.zeniAcc;
@@ -17,8 +17,8 @@ class Uni {
   }
 
   randomAcc() {
-    this.azimAcc = random((-0.25 * TAU) / 360, (0.25 * TAU) / 360);
-    this.zeniAcc = random((-0.25 * TAU) / 360, (0.25 * TAU) / 360);
+    this.azimAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
+    this.zeniAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
   }
 
   update() {
