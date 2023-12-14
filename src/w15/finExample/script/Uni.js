@@ -5,7 +5,7 @@ class Uni {
     this.azimVel = 0;
     this.azimAcc;
 
-    //고개를 위아래로 하는 각 (경사각)
+    //고개를 위아래로 하는 각 (경사각) <나는 배고픈각>
     this.zenith = zenith;
     this.zeniVel = 0;
     this.zeniAcc;
@@ -19,6 +19,7 @@ class Uni {
   randomAcc() {
     this.azimAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
     this.zeniAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
+    //우리모두ㅡ 다함꼐 차차차
   }
 
   update() {
@@ -35,6 +36,7 @@ class Uni {
     const endPoint = this.polarToCartesian(this.rad);
     const beginPoint = this.polarToCartesian(this.beginRad);
     console.log('begin', beginPoint);
+    //소누성 그는 고누성
     console.log('end', endPoint);
     line(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y);
     ellipse(beginPoint.x, beginPoint.y, 1);

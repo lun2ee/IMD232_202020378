@@ -1,10 +1,14 @@
 const unis = [];
 
 function setup() {
-  createCanvas('mySketchGoesHere', 1, 1, true);
+  createCanvas(800, 800);
+  var canvas = document.createElement('mySketchGoesHere');
+  canvas.id = 'mySketchGoesHere';
 
-  for (let azimNum = 0; azimNum < 8; azimNum++) {
-    for (let zeniNum = 0; zeniNum < 8; zeniNum++) {
+  document.body.appendChild(canvas);
+
+  for (let azimNum = 0; azimNum < 10; azimNum++) {
+    for (let zeniNum = 0; zeniNum < 10; zeniNum++) {
       unis.push(new Uni((TAU / 16) * azimNum, (TAU / 8) * zeniNum, 300, 100));
     }
   }
