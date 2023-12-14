@@ -9,7 +9,7 @@ function setup() {
 
   for (let azimNum = 0; azimNum < 10; azimNum++) {
     for (let zeniNum = 0; zeniNum < 10; zeniNum++) {
-      unis.push(new Uni((TAU / 16) * azimNum, (TAU / 8) * zeniNum, 300, 100));
+      unis.push(new Uni((TAU / 16) * azimNum, (TAU / 8) * zeniNum, 300, 50));
     }
   }
 
@@ -29,4 +29,8 @@ function draw() {
     eachUni.display();
   });
   console.log(unis[0]);
+}
+function windowResized() {
+  // 윈도우 크기가 변경되면 캔버스 크기를 조절
+  resizeCanvas(windowWidth, windowHeight);
 }
