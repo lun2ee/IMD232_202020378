@@ -15,7 +15,7 @@ function setup() {
       //azimuth 값은 (TAU/16)* azimNum 으로 설정되고,
       //zenith 값은 (TAU/8)*zeniNum 으로 설정된다.
       //나머지 매개 변수는 고정된 값인 300 과 50이다.
-      unis.push(new Uni((TAU / 16) * azimNum, (TAU / 8) * zeniNum, 300, 50));
+      unis.push(new Uni((TAU / 16) * azimNum, (TAU / 10) * zeniNum, 300, 20));
     }
   }
 
@@ -34,7 +34,7 @@ function draw() {
     eachUni.update();
     eachUni.display();
   });
-  console.log(unis[0]);
+  // console.log(unis[0]);
 }
 function windowResized() {
   // 윈도우 크기가 변경되면 캔버스 크기를 조절

@@ -2,66 +2,77 @@ class Uni {
   constructor(azimuth, zenith, rad, beginRad) {
     //고개를 좌우로 하는 각 (방위각)
     this.azimuth = azimuth;
-    this.azimVel = 0; //방위각의 속도 초기화
-    this.azimAcc; //방위각의 가속도
+    this.azimVel = 0;
+    this.azimAcc;
 
-    //고개를 위아래로 하는 각 (경사각) <나는 배고픈각>
+    //고개를 위아래로 하는 각 (경사각)
     this.zenith = zenith;
-    this.zeniVel = 0; //경사각의 속도 초기화
-    this.zeniAcc; //경사각의 가속도
+    this.zeniVel = 0;
+    this.zeniAcc;
 
-    //반지름 (끝점) 초기화
+    //반지름 (끝점)
     this.rad = rad;
-    //시작점 반지름 초기화
+    //시작점 반지름
     this.beginRad = beginRad;
+
+    this.wrapperRad = 300;
   }
 
-  //무작위로 가속도를 설정하는 메서드
   randomAcc() {
-    this.azimAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
-    this.zeniAcc = random((-0.15 * TAU) / 360, (0.15 * TAU) / 360);
-    //가속도를 무작위로 설정
-    //TAU는 전체 원주율을 나타냄.
-    //우리모두ㅡ 다함꼐 차차차
+    this.azimAcc = random((-0.15 * TAU) / 30, (0.25 * TAU) / 30);
+    this.zeniAcc = random((-0.15 * TAU) / 30, (0.25 * TAU) / 30);
   }
 
   update() {
-    // constrain : 값을 최솟값과 최대값 사이에 제한한다.
-    // constrain (제한할 숫자, 최소 한계, 최대 한계)
     this.azimVel += this.azimAcc;
-    this.azimVel = constrain(this.azimVel, (-1 * TAU) / 360, (1 * TAU) / 360);
+    this.azimVel = constrain(this.azimVel, (-3 * TAU) / 360, (3 * TAU) / 360);
     this.azimuth += this.azimVel;
 
     this.zeniVel += this.zeniAcc;
-    this.zeniVel = constrain(this.zeniVel, (-1 * TAU) / 360, (1 * TAU) / 360);
+    this.zeniVel = constrain(this.zeniVel, (-3 * TAU) / 360, (3 * TAU) / 360);
     this.zenith += this.zeniVel;
   }
 
   display() {
-    for (let i = 0; i <= 5; i++) {
-      const fraction = i / 5;
-      const point = this.polarToCartesian(
-        lerp(this.beginRad, this.rad, fraction)
-      );
-      ellipse(point.x, point.y, 5);
-    }
-
     const endPoint = this.polarToCartesian(this.rad);
     const beginPoint = this.polarToCartesian(this.beginRad);
 
+    // 원을 감싸는 선 그리기
+    stroke('white');
+    noFill();
+    ellipse(0, 0, this.wrapperRad * 2);
+
+    // 마우스 위치
+    const mouseXInUniFrame = mouseX - width / 2;
+    const mouseYInUniFrame = mouseY - height / 2;
+
+    // 마우스와의 거리
+    const distanceToMouse = dist(
+      beginPoint.x,
+      beginPoint.y,
+      mouseXInUniFrame,
+      mouseYInUniFrame
+    );
+
+    // 만약 마우스가 Uni 바깥쪽의 원 안에 들어오면 endpoint를 마우스 위치로 몰리도록 함
+    if (distanceToMouse < this.wrapperRad) {
+      //같은 분면에 위치한 endpoint 개수 제한
+      endPoint.x = mouseXInUniFrame;
+      endPoint.y = mouseYInUniFrame;
+    }
+
     console.log('begin', beginPoint);
     console.log('end', endPoint);
-
     line(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y);
     ellipse(beginPoint.x, beginPoint.y, 1);
     ellipse(endPoint.x, endPoint.y, 5);
   }
 
   polarToCartesian(rad) {
-    return {
-      x: rad * sin(this.zenith) * cos(this.azimuth),
-      y: rad * sin(this.zenith) * sin(this.azimuth),
-      z: rad * cos(this.zenith),
-    };
+    const x = rad * cos(this.zenith) * cos(this.azimuth);
+    const y = rad * cos(this.zenith) * sin(this.azimuth);
+    const z = rad * sin(this.zenith);
+
+    return { x, y, z };
   }
 }
