@@ -29,20 +29,29 @@ class Uni {
     // constrain : 값을 최솟값과 최대값 사이에 제한한다.
     // constrain (제한할 숫자, 최소 한계, 최대 한계)
     this.azimVel += this.azimAcc;
-    this.azimVel = constrain(this.azimVel, (-3 * TAU) / 360, (3 * TAU) / 360);
+    this.azimVel = constrain(this.azimVel, (-1 * TAU) / 360, (1 * TAU) / 360);
     this.azimuth += this.azimVel;
 
     this.zeniVel += this.zeniAcc;
-    this.zeniVel = constrain(this.zeniVel, (-3 * TAU) / 360, (3 * TAU) / 360);
+    this.zeniVel = constrain(this.zeniVel, (-1 * TAU) / 360, (1 * TAU) / 360);
     this.zenith += this.zeniVel;
   }
 
   display() {
+    for (let i = 0; i <= 5; i++) {
+      const fraction = i / 5;
+      const point = this.polarToCartesian(
+        lerp(this.beginRad, this.rad, fraction)
+      );
+      ellipse(point.x, point.y, 5);
+    }
+
     const endPoint = this.polarToCartesian(this.rad);
     const beginPoint = this.polarToCartesian(this.beginRad);
+
     console.log('begin', beginPoint);
-    //소누성 그는 고누성
     console.log('end', endPoint);
+
     line(beginPoint.x, beginPoint.y, endPoint.x, endPoint.y);
     ellipse(beginPoint.x, beginPoint.y, 1);
     ellipse(endPoint.x, endPoint.y, 5);
